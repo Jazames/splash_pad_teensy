@@ -14,7 +14,7 @@ uint8_t BLE_buffer[98] = //Puts all nozzles in object tracker mode, and sorta tu
   0xFF, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x08, 0x3D, 0x06, 0x33, 0x0B, 0x10,
   0xFF, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x08, 0x3D, 0x06, 0x33, 0x0B, 0x10,
   0xFF, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x08, 0x3D, 0x06, 0x33, 0x0B, 0x10
-}
+};
 uint32_t nozzle_state[7] = {1, 1, 1, 0, 1, 1, 1};
 uint32_t object_tracker_nozzle_modes[7] = {0, 0, 0, 0, 0, 0, 0}; //All on, so that if it works, they'll turn off. 
 Adafruit_TLC5947 led_driver(1, 13, 11, 10);
@@ -37,7 +37,7 @@ void randomFunction(int);
 uint32_t getObjectTrackingSuggestion(int nozzle);
 
 //Communication with Object Detector
-void writeToObjectDetector(uint8_t message_type, uint8_t* buffer, int payload_length)
+void writeToObjectDetector(uint8_t message_type, uint8_t* buffer, int payload_length);
 uint16_t calculateFletcher16(uint8_t* data, int length);
 void insertChecksum(uint8_t* buffer, int length);
 void runCommunicator();
@@ -414,7 +414,7 @@ void parseDetectorSerial(uint8_t byte)
       break;
     case 5: 
       incoming_checksum = incoming_checksum | byte;
-      uint16_t calcChecksum = calculateFletcher16(incoming_buffer, getMessageLength(incoming_type))
+      uint16_t calcChecksum = calculateFletcher16(incoming_buffer, getMessageLength(incoming_type));
       if(calcChecksum == incoming_checksum)
       {
         interpretMessage(incoming_buffer); 
@@ -462,6 +462,7 @@ void interpretMessage(uint8_t* buffer)
       break;
     default:
     //do nothing. 
+      break;
   }
 }
 
